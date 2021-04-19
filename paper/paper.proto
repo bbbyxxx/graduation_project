@@ -1,0 +1,56 @@
+syntax = "proto3";
+package paper;
+option go_package = "./paper";
+
+message paper{
+    string paper_number = 1;
+    string paper_name = 2;
+    string paper_topic = 3;
+    string paper_content = 4;
+    string related_code = 5;
+    string device_number_model_id = 6;
+}
+
+//批量获取论文信息
+message MGetPaperRequest{
+    string multi_id = 1;
+    string paper_number = 2;
+    string device_number_model_id = 3;
+}
+
+message MGetPaperResponse{
+    string message = 1;
+    repeated paper paper = 2;
+}
+
+//添加论文
+message AddPaperRequest{
+    string multi_id = 1;
+    paper paper = 2;
+}
+
+message AddPaperResponse{
+    string message = 1;
+}
+
+//修改/删除论文信息
+message UpdatePaperRequest{
+    string paper_number = 1;
+    string paper_name = 2;
+    string paper_topic = 3;
+    string paper_content = 4;
+    string related_code = 5;
+    string device_number_model_id = 6;
+    int32 is_deleted = 7;
+    string multi_id = 8;
+}
+
+message UpdatePaperResponse{
+    string message = 1;
+}
+
+service Paper{
+    rpc MGetPaper (MGetPaperRequest) returns (MGetPaperResponse) {}
+    rpc AddPaper (AddPaperRequest) returns (AddPaperResponse) {}
+    rpc UpdatePaper (UpdatePaperRequest) returns (UpdatePaperResponse) {}
+}

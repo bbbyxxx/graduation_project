@@ -1,0 +1,65 @@
+syntax = "proto3";
+package device;
+option go_package = "./device";
+
+message device{
+    string device_number_id = 1;
+    string device_model_id = 2;
+    string device_number_model_id = 3;
+    string device_name = 4;
+    int32 device_status = 5;
+    string device_images = 6;
+    string device_use_desc = 7;
+    int64 device_create_time = 8;
+    int32 laboratory_id = 9;
+    int32 laboratory_floor = 10;
+    string laboratory_floor_id = 11;
+}
+
+//添加设备
+message AddDeviceRequest{
+    device device = 1;
+    string multi_id = 2;
+}
+
+message AddDeviceResponse{
+    string message = 1;
+}
+
+//删除设备
+message DeleteDeviceRequest{
+    string device_number_model_id = 1;
+    string multi_id = 2;
+    int32 is_deleted = 3;
+}
+
+message DeleteDeviceResponse{
+    string message = 1;
+}
+
+//更新设备信息
+message UpdateDeviceRequest{
+    device device = 1;
+    string multi_id = 2;
+}
+
+message UpdateDeviceResponse{
+    string message = 1;
+}
+
+//批量查询设备信息
+message MQueryDeviceRequest{
+    repeated string device_number_model_id = 1;
+}
+
+message MQueryDeviceResponse{
+    string message = 1;
+    repeated device device = 2;
+}
+
+service Device{
+    rpc AddDevice (AddDeviceRequest) returns (AddDeviceResponse) {}
+    rpc DeleteDevice (DeleteDeviceRequest) returns (DeleteDeviceResponse) {}
+    rpc UpdateDevice (UpdateDeviceRequest) returns (UpdateDeviceResponse) {}
+    rpc MQueryDeviceByDNMIS (MQueryDeviceRequest) returns (MQueryDeviceResponse) {}
+}
