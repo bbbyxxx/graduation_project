@@ -13,6 +13,30 @@ const (
 	AddressDevice = "127.0.0.1:8002"
 )
 
+func MQueryDeviceByDNMIS(ctx context.Context, conn *grpc.ClientConn, dnmis []string, multiId string) (*device.MQueryDeviceResponse, error) {
+	var (
+		err  error
+		resp *device.MQueryDeviceResponse
+	)
+	if conn == nil {
+		conn, err = grpc.Dial(AddressDevice, grpc.WithInsecure())
+	}
+	if err != nil {
+		log.Printf("[MQueryDeviceByDNMIS] Dial is failed,err:%v\n", err)
+		return resp, err
+	}
+	c := device.NewDeviceClient(conn)
+	req := &device.MQueryDeviceRequest{
+		DeviceNumberModelId: dnmis,
+	}
+	resp, err = c.MQueryDeviceByDNMIS(ctx, req)
+	if err != nil {
+		log.Printf("[MQueryDeviceByDNMIS] call rpc MQueryDeviceByDNMIS is failed,err:%v\n", err)
+		return resp, err
+	}
+	return resp, nil
+}
+
 func UpdateDevice(ctx context.Context, conn *grpc.ClientConn, modelDevice *model.Device, multiId string) (*device.UpdateDeviceResponse, error) {
 	var (
 		err  error

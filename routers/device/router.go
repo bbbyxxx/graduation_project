@@ -11,4 +11,5 @@ func Routers(e *gin.Engine) {
 
 	e.POST("/update_device", handler_device.UpdateDevice)
 
+	e.GET("/get_device_by_dnmis", handler_device.MGetDeviceByDNMIS)
 }
